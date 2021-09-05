@@ -1,5 +1,7 @@
 <script>
     // import { onMount, onDestroy } from 'svelte';
+    import { fade, scale } from 'svelte/transition';
+    import { flip } from 'svelte/animate';
     import PollStore from '../store/PollStore'
     import PollDetails from './PollDetails.svelte';
 
@@ -23,7 +25,7 @@
 <div class="polls-list">
     <!-- Instead of sub and un sub via hooks, we can directly refer to PollStore as $PollStore -->
     {#each $PollStore as poll(poll.id)} 
-        <div>
+        <div in:fade out:scale|local animate:flip={{ duration: 500 }}> 
             <PollDetails {poll}/>
         </div>
     {/each}
