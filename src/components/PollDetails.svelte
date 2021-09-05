@@ -1,24 +1,34 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
+    import Card from '../shared/Card.svelte'
+
     export let poll;
+    const dispatch = createEventDispatcher();
 
     // Reactive values
     $: totalVotes = poll.votesA + poll.votesB;
+
+    const handleVote = (option, id) => {
+        dispatch('vote', { option, id })
+    }
 </script>
 
-<div class="poll">
-    <h3>{poll.question}</h3>
-    <p>Total Votes: {totalVotes}</p>
-    <div class="answer">
-        <div class="percent percent-a">
-            <span>{poll.answerA} ({poll.votesA})</span>
+<Card>
+    <div>
+        <h3>{poll.question}</h3>
+        <p>Total Votes: {totalVotes}</p>
+        <div class="answer" on:click={() => handleVote('a', poll.id)}>
+            <div class="percent percent-a">
+                <span>{poll.answerA} ({poll.votesA})</span>
+            </div>
+        </div>
+        <div class="answer" on:click={() => handleVote('b', poll.id)}>
+            <div class="percent percent-a">
+                <span>{poll.answerB} ({poll.votesB})</span>
+            </div>
         </div>
     </div>
-    <div class="answer">
-        <div class="percent percent-a">
-            <span>{poll.answerB} ({poll.votesB})</span>
-        </div>
-    </div>
-</div>
+</Card>
 
 <style>
     p {

@@ -31,6 +31,20 @@
 		polls = [detail, ...polls];
 		activeTab = 'Current Polls';
 	}
+
+	const handleVote = ({ detail: { id, option } }) => {
+		let pollsClone = [...polls];
+		let upVotedPoll = pollsClone.find(poll => poll.id === id);
+		
+		if(option === 'a') {
+			upVotedPoll.votesA ++;
+		}
+		if(option === 'b') {
+			upVotedPoll.votesB ++;
+		}
+
+		polls = pollsClone;
+	}
 </script>
 
 <Header />
@@ -38,7 +52,7 @@
 	<Tabs {items} {activeTab} on:toggleTab={(e) => toggleTab(e)}/>
 	
 	{#if activeTab === 'Current Polls'}
-		<PollList {polls}/>
+		<PollList {polls} on:vote={(e) => handleVote(e)}/>
 	{:else}
 		<CreatePollForm on:addPoll={(e) => handleAddPoll(e)}/>
 	{/if}
