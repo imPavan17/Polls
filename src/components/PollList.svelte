@@ -1,13 +1,30 @@
 <script>
-    import PollDetails from './PollDetails.svelte'
+    // import { onMount, onDestroy } from 'svelte';
+    import PollStore from '../store/PollStore'
+    import PollDetails from './PollDetails.svelte';
 
-    export let polls = [];
+    // let polls = [];
+
+    /** Returns an unsubscription function */
+    // const unSub = PollStore.subscribe((data) => {
+    //     polls = data
+    // });
+
+    // onMount(() => {
+        
+    // });
+
+    /** Unsubcription is good to avoid memory leaks when the project is huge */
+    // onDestroy(() => {
+    //     unSub();
+    // });
 </script>
 
 <div class="polls-list">
-    {#each polls as poll(poll.id)}
+    <!-- Instead of sub and un sub via hooks, we can directly refer to PollStore as $PollStore -->
+    {#each $PollStore as poll(poll.id)} 
         <div>
-            <PollDetails {poll} on:vote/>
+            <PollDetails {poll}/>
         </div>
     {/each}
 </div>

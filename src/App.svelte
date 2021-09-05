@@ -9,41 +9,14 @@
 	let items = ['Current Polls', 'Add New Poll'];
 	let activeTab = 'Current Polls';
 
-	//Polls
-	let polls = [
-		{ 
-			id: 1,
-			question: 'Messi or Ronaldo',
-			answerA: 'Messi',
-			answerB: 'Ronaldo',
-			votesA: 12,
-			votesB: 13,
-		}
-	]
-
 	//To togggle current tab
 	const toggleTab = ({ detail }) => {
 		activeTab = detail;
 	}
 
 	//Adding poll
-	const handleAddPoll = ({ detail }) => {
-		polls = [detail, ...polls];
+	const handleAddPoll = () => {
 		activeTab = 'Current Polls';
-	}
-
-	const handleVote = ({ detail: { id, option } }) => {
-		let pollsClone = [...polls];
-		let upVotedPoll = pollsClone.find(poll => poll.id === id);
-		
-		if(option === 'a') {
-			upVotedPoll.votesA ++;
-		}
-		if(option === 'b') {
-			upVotedPoll.votesB ++;
-		}
-
-		polls = pollsClone;
 	}
 </script>
 
@@ -52,9 +25,9 @@
 	<Tabs {items} {activeTab} on:toggleTab={(e) => toggleTab(e)}/>
 	
 	{#if activeTab === 'Current Polls'}
-		<PollList {polls} on:vote={(e) => handleVote(e)}/>
+		<PollList />
 	{:else}
-		<CreatePollForm on:addPoll={(e) => handleAddPoll(e)}/>
+		<CreatePollForm on:addPoll={handleAddPoll}/>
 	{/if}
 </main>
 <Footer />
